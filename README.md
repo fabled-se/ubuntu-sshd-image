@@ -1,21 +1,15 @@
-# ubuntu-sshd-image 
+# ubuntu-sshd-image
 
 Ubuntu image with sshd configured for use in testing
 
 # Usage
 
-Create a `authorized_keys` file in which you put your public key. Make sure the file is owned by
-root and has the permission `644`.
+Pass in your public key as an environment variable `PUBLIC_SSH_KEY`.
 
 ```sh
-cat ~/.ssh/id_ed25519.pub > authorized_keys
-chown root:root authorized_keys
-chmod 644 authorized_keys
-
 docker run \
-    --mount type=bind,src=$(pwd)/authorized_keys,dst=/root/.ssh/authorized_keys \
+    -e PUBLIC_SSH_KEY="ssh-ed25519 ..."
     -p 22:22 \
     -d \
-    ubuntu-sshd-image
+    ghcr.io/fabled-se/ubuntu-sshd-image:latest
 ```
-
